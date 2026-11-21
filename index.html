@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Little Surprise for Jojo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <div class="grain"></div>
+    <div class="petals" id="petals"></div>
+
+    <main class="app">
+
+        <!-- شاشة الأسئلة -->
+        <section class="screen active" id="quizScreen">
+            <div class="top-label">A LITTLE SURPRISE</div>
+
+            <div class="quiz-card">
+                <div class="tiny-flower">✿</div>
+                <p class="eyebrow">BEFORE WE BEGIN</p>
+                <h1 class="main-title">خلينا نتأكد إنك إنتِ</h1>
+                <p class="subtitle">جاوبي على الأسئلة الصغيرة دي عشان نبدأ الحكاية</p>
+
+                <div class="progress-area">
+                    <div class="progress-info">
+                        <span id="questionCounter">السؤال 1 من 3</span>
+                        <span id="progressPercent">33%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+
+                <!-- السؤال الأول -->
+                <div class="question-step active" id="question1">
+                    <span class="question-number">01</span>
+                    <h2>عيد ميلادك يوم كام؟</h2>
+                    <p class="question-hint">اختاري اليوم والشهر</p>
+
+                    <div class="date-inputs">
+                        <div class="date-field">
+                            <label for="birthDay">اليوم</label>
+                            <input id="birthDay" type="text" inputmode="numeric" maxlength="2" placeholder="DD" autocomplete="off">
+                        </div>
+                        <span class="date-divider">/</span>
+                        <div class="date-field">
+                            <label for="birthMonth">الشهر</label>
+                            <input id="birthMonth" type="text" inputmode="numeric" maxlength="2" placeholder="MM" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <p class="feedback" id="dateFeedback" aria-live="polite"></p>
+                    <button class="primary-btn" id="dateButton">تأكيد الإجابة <span>↗</span></button>
+                </div>
+
+                <!-- السؤال الثاني -->
+                <div class="question-step" id="question2">
+                    <span class="question-number">02</span>
+                    <h2>إيه أكتر حيوان بتحبيه؟</h2>
+                    <p class="question-hint">اختاري إجابة واحدة</p>
+
+                    <div class="options">
+                        <button class="option" data-question="2" data-answer="wrong">
+              <span class="option-emoji">🐶</span>
+              <span>كلاب</span>
+              <span class="option-mark"></span>
+            </button>
+                        <button class="option" data-question="2" data-answer="correct">
+              <span class="option-emoji">🦌</span>
+              <span>غزلان</span>
+              <span class="option-mark"></span>
+            </button>
+                        <button class="option" data-question="2" data-answer="wrong">
+              <span class="option-emoji">🐇</span>
+              <span>أرانب</span>
+              <span class="option-mark"></span>
+            </button>
+                    </div>
+                    <p class="feedback" id="feedback2" aria-live="polite"></p>
+                    <button class="primary-btn next-btn" id="next2" disabled>التالي <span>↗</span></button>
+                </div>
+
+                <!-- السؤال الثالث -->
+                <div class="question-step" id="question3">
+                    <span class="question-number">03</span>
+                    <h2>بتحبي أنهي فصل أكتر؟</h2>
+                    <p class="question-hint">اختاري إجابة واحدة</p>
+
+                    <div class="options">
+                        <button class="option" data-question="3" data-answer="correct">
+              <span class="option-emoji">❄️</span>
+              <span>الشتاء</span>
+              <span class="option-mark"></span>
+            </button>
+                        <button class="option" data-question="3" data-answer="wrong">
+              <span class="option-emoji">☀️</span>
+              <span>الصيف</span>
+              <span class="option-mark"></span>
+            </button>
+                    </div>
+                    <p class="feedback" id="feedback3" aria-live="polite"></p>
+                    <button class="primary-btn next-btn" id="next3" disabled>إنهاء <span>✦</span></button>
+                </div>
+
+                <div class="attempts" id="attemptsText">قدامك محاولتين لكل سؤال</div>
+            </div>
+
+            <div class="footer-note">MADE WITH A LITTLE LOVE ✦</div>
+        </section>
+
+        <!-- شاشة النجاح -->
+        <section class="screen success-screen" id="successScreen">
+            <div class="success-glow"></div>
+            <div class="success-content">
+                <div class="success-stars">✦　✧　✦</div>
+                <p class="success-kicker">A LITTLE SOMETHING FOR YOU</p>
+
+                <h1 class="found-title">YOU FOUND<br>YOUR WAY</h1>
+
+                <div class="success-line"></div>
+
+                <h2 class="welcome-title">أهلًا بيكي يا Jojo</h2>
+
+                <p class="welcome-copy">
+                    طالما جاوبتي كل الأسئلة صح،<br> يبقى إنتِ الشخص اللي الموقع ده اتعمل عشانه.
+                </p>
+
+                <div class="ornament">✦</div>
+
+                <p class="little-story">وفيه حكاية صغيرة لسه مستنياكي…</p>
+
+                <div class="flowers">❀ ✿ ❀</div>
+
+                <button class="start-btn" id="startButton">
+          ابدئي
+          <span>♡</span>
+        </button>
+            </div>
+        </section>
+
+        <!-- شاشة الظرف -->
+        <section class="screen letter-screen" id="envelopeScreen">
+            <div class="letter-heading">
+                <p class="letter-overline">A SPECIAL DAY</p>
+                <h2>Happy Birthday, My Ganjonty</h2>
+                <p>Open the letter, I want to tell you something...</p>
+            </div>
+
+            <button class="envelope-button" id="envelopeButton" aria-label="افتحي الرسالة">
+        <div class="envelope">
+          <div class="envelope-back"></div>
+          <div class="letter-paper">
+            <span class="paper-flower">✿</span>
+            <span class="paper-text">For you ♡</span>
+          </div>
+          <div class="envelope-front"></div>
+          <div class="envelope-flap"></div>
+          <div class="wax-seal">♡</div>
+        </div>
+      </button>
+            <p class="tap-hint" id="tapHint">اضغطي على الظرف لفتح الرسالة</p>
+        </section>
+
+        <!-- شاشة الرسالة -->
+        <section class="screen message-screen" id="messageScreen">
+            <div class="message-card">
+                <div class="message-decoration">✿</div>
+                <p class="message-label">A LETTER FOR YOU</p>
+                <h2>To my Ganjonty ♡</h2>
+
+                <div class="message-body" id="messageBody"></div>
+
+                <div class="spotify-area">
+                    <p>OUR LITTLE SONG ♡</p>
+                    <iframe id="spotifyFrame" src="https://open.spotify.com/embed/track/PUT_YOUR_TRACK_ID_HERE" width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+          </iframe>
+                </div>
+
+                <button class="read-button" id="readButton">قرأت ♡</button>
+            </div>
+        </section>
+
+        <!-- شاشة النهاية -->
+        <section class="screen ending-screen" id="endingScreen">
+            <div class="ending-content">
+                <div class="ending-flower">❀</div>
+                <p class="ending-small">AND THAT'S ALL FOR NOW</p>
+                <h1>بحبك أوي يا جني</h1>
+                <h2>وكل سنة وإنتِ طيبة</h2>
+                <div class="ending-stars">✦　♡　✦</div>
+                <p class="goodbye">سلااام ♡</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
