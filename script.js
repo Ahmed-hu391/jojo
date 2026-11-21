@@ -1,119 +1,174 @@
-// =====================================
-// إعدادات الموقع
-// =====================================
+// ======================================
+// 1. إعدادات الموقع
+// ======================================
 
-// اكتبي رسالتك هنا بين العلامتين
+// اكتبي رسالتك هنا
 const letterMessage = `
 اكتبي رسالتك هنا يا أحمد...
 
 كل سنة وإنتِ طيبة يا جني ❤️
+
+أتمنى تكون سنتك الجديدة مليانة فرحة ونجاح وأيام حلوة.
 `;
 
-// ضعي رابط Spotify Embed الخاص بالأغنية هنا
-const spotifyLink = "https://open.spotify.com/embed/track/PUT_YOUR_TRACK_ID_HERE";
+// رابط أغنية Spotify Embed
+const spotifyLink =
+  "https://open.spotify.com/embed/track/PUT_YOUR_TRACK_ID_HERE";
 
 
-// =====================================
-// عناصر الموقع
-// =====================================
+// ======================================
+// 2. عناصر الصفحات
+// ======================================
 
 const screens = {
-    quiz: document.getElementById("quizScreen"),
-    success: document.getElementById("successScreen"),
-    envelope: document.getElementById("envelopeScreen"),
-    message: document.getElementById("messageScreen"),
-    ending: document.getElementById("endingScreen")
+  quiz: document.getElementById("quizScreen"),
+  success: document.getElementById("successScreen"),
+  music: document.getElementById("musicScreen"),
+  envelope: document.getElementById("envelopeScreen"),
+  message: document.getElementById("messageScreen"),
+  ending: document.getElementById("endingScreen")
 };
 
-const questionCounter = document.getElementById("questionCounter");
-const progressPercent = document.getElementById("progressPercent");
-const progressFill = document.getElementById("progressFill");
-const attemptsText = document.getElementById("attemptsText");
+
+// ======================================
+// 3. إعداد توقيت ظهور الكلام
+// ======================================
+
+function prepareReveal(screen) {
+  const elements = screen.querySelectorAll(".reveal-item");
+
+  elements.forEach((element, index) => {
+    const delay = Math.min(index * 0.13, 1.3);
+    element.style.setProperty("--delay", `${delay}s`);
+  });
+}
+
+
+// تجهيز الصفحة الأولى
+prepareReveal(screens.quiz);
+
+
+// ======================================
+// 4. الانتقال بين الصفحات
+// ======================================
+
+function showScreen(name) {
+  const currentScreen = document.querySelector(".screen.active");
+
+  if (currentScreen) {
+    currentScreen.classList.add("leaving");
+
+    setTimeout(() => {
+      currentScreen.classList.remove("active", "leaving");
+    }, 420);
+  }
+
+  const nextScreen = screens[name];
+
+  prepareReveal(nextScreen);
+
+  // إعادة تشغيل الأنيميشن
+  nextScreen.classList.remove("active");
+  void nextScreen.offsetWidth;
+
+  setTimeout(() => {
+    nextScreen.classList.add("active");
+  }, 180);
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+
+// ======================================
+// 5. بيانات الأسئلة
+// ======================================
 
 let attempts = {
-    1: 0,
-    2: 0,
-    3: 0
+  1: 0,
+  2: 0,
+  3: 0
 };
 
 let questionSolved = {
-    1: false,
-    2: false,
-    3: false
+  1: false,
+  2: false,
+  3: false
+};
+
+let lockedQuestions = {
+  1: false,
+  2: false,
+  3: false
 };
 
 
-// =====================================
-// تغيير الشاشات
-// =====================================
+// ======================================
+// 6. شريط التقدم
+// ======================================
 
-function showScreen(screenName) {
-    Object.values(screens).forEach(screen => {
-        screen.classList.remove("active");
-    });
+const questionCounter =
+  document.getElementById("questionCounter");
 
-    const target = screens[screenName];
+const progressPercent =
+  document.getElementById("progressPercent");
 
-    // إعادة تشغيل الأنيميشن عند فتح الشاشة
-    void target.offsetWidth;
-    target.classList.add("active");
-}
-
-
-// =====================================
-// تحديث شريط التقدم
-// =====================================
+const progressFill =
+  document.getElementById("progressFill");
 
 function updateProgress(number) {
-    const percentages = {
-        1: 33.33,
-        2: 66.66,
-        3: 100
-    };
+  const percentages = {
+    1: 33.33,
+    2: 66.66,
+    3: 100
+  };
 
-    questionCounter.textContent = `السؤال ${number} من 3`;
-    progressPercent.textContent = `${Math.round(percentages[number])}%`;
-    progressFill.style.width = `${percentages[number]}%`;
+  questionCounter.textContent = `السؤال ${number} من 3`;
+  progressPercent.textContent =
+    `${Math.round(percentages[number])}%`;
+
+  progressFill.style.width = `${percentages[number]}%`;
 }
 
 
-// =====================================
-// الانتقال بين الأسئلة
-// =====================================
+// ======================================
+// 7. عرض السؤال
+// ======================================
 
 function showQuestion(number) {
-    document.querySelectorAll(".question-step").forEach(step => {
-        step.classList.remove("active");
-    });
+  document.querySelectorAll(".question-step").forEach(step => {
+    step.classList.remove("active");
+  });
 
-    const nextQuestion = document.getElementById(`question${number}`);
-    void nextQuestion.offsetWidth;
-    nextQuestion.classList.add("active");
+  const question = document.getElementById(`question${number}`);
 
-    updateProgress(number);
+  void question.offsetWidth;
+  question.classList.add("active");
 
-    attemptsText.textContent = "قدامك محاولتين لكل سؤال";
+  updateProgress(number);
 }
 
 
-// =====================================
-// تنسيق الأرقام العربية والإنجليزية
-// =====================================
+// ======================================
+// 8. تحويل الأرقام
+// ======================================
 
 function normalizeNumbers(value) {
-    const arabicNumbers = "٠١٢٣٤٥٦٧٨٩";
-    const persianNumbers = "۰۱۲۳۴۵۶۷۸۹";
+  const arabicNumbers = "٠١٢٣٤٥٦٧٨٩";
+  const persianNumbers = "۰۱۲۳۴۵۶۷۸۹";
 
-    return value
-        .replace(/[٠-٩]/g, digit => arabicNumbers.indexOf(digit))
-        .replace(/[۰-۹]/g, digit => persianNumbers.indexOf(digit))
-        .replace(/\s/g, "");
+  return value
+    .replace(/[٠-٩]/g, digit => arabicNumbers.indexOf(digit))
+    .replace(/[۰-۹]/g, digit => persianNumbers.indexOf(digit))
+    .replace(/\s/g, "");
 }
 
 
-// =====================================
-// السؤال الأول: اليوم والشهر
-// =====================================
+// ======================================
+// 9. السؤال الأول: التاريخ
+// ======================================
 
 const birthDay = document.getElementById("birthDay");
 const birthMonth = document.getElementById("birthMonth");
@@ -121,263 +176,356 @@ const dateFeedback = document.getElementById("dateFeedback");
 const dateButton = document.getElementById("dateButton");
 
 [birthDay, birthMonth].forEach(input => {
-    input.addEventListener("input", () => {
-        input.value = normalizeNumbers(input.value).replace(/\D/g, "").slice(0, 2);
-    });
+  input.addEventListener("input", () => {
+    input.value = normalizeNumbers(input.value)
+      .replace(/\D/g, "")
+      .slice(0, 2);
+  });
 });
 
 birthDay.addEventListener("input", () => {
-    if (birthDay.value.length === 2) {
-        birthMonth.focus();
-    }
+  if (birthDay.value.length === 2) {
+    birthMonth.focus();
+  }
 });
 
-function checkDate() {
-    const day = normalizeNumbers(birthDay.value).padStart(2, "0");
-    const month = normalizeNumbers(birthMonth.value).padStart(2, "0");
+dateButton.addEventListener("click", () => {
+  if (lockedQuestions[1]) return;
 
-    if (!day || !month) {
-        dateFeedback.textContent = "اكتبي اليوم والشهر الأول ♡";
-        dateFeedback.className = "feedback error";
-        return;
-    }
+  const day = normalizeNumbers(birthDay.value).padStart(2, "0");
+  const month = normalizeNumbers(birthMonth.value).padStart(2, "0");
 
-    attempts[1]++;
+  if (!birthDay.value || !birthMonth.value) {
+    dateFeedback.textContent = "اكتبي اليوم والشهر الأول ♡";
+    dateFeedback.className = "feedback error";
+    return;
+  }
 
-    if (day === "01" && month === "12") {
-        questionSolved[1] = true;
+  attempts[1]++;
 
-        dateFeedback.textContent = "إجابة صحيحة! ✦";
-        dateFeedback.className = "feedback success";
+  if (day === "01" && month === "12") {
+    questionSolved[1] = true;
+    lockedQuestions[1] = true;
 
-        dateButton.disabled = true;
+    dateFeedback.textContent = "إجابة صحيحة! ✦";
+    dateFeedback.className = "feedback success";
 
-        setTimeout(() => {
-            showQuestion(2);
-        }, 1100);
+    dateButton.disabled = true;
 
+    setTimeout(() => {
+      showQuestion(2);
+    }, 1000);
+
+  } else {
+    const remaining = 2 - attempts[1];
+
+    if (remaining > 0) {
+      dateFeedback.textContent = "مش دي الإجابة، جربي مرة كمان ♡";
+      dateFeedback.className = "feedback error";
     } else {
-        const remaining = 2 - attempts[1];
+      lockedQuestions[1] = true;
 
-        if (remaining > 0) {
-            dateFeedback.textContent = "مش دي الإجابة، جربي مرة كمان ♡";
-            dateFeedback.className = "feedback error";
-        } else {
-            dateFeedback.textContent = "خلصت المحاولتين، مش هينفع نكمل كده!";
-            dateFeedback.className = "feedback error";
-            dateButton.disabled = true;
-        }
+      dateFeedback.textContent = "خلصت المحاولتين!";
+      dateFeedback.className = "feedback error";
+
+      dateButton.disabled = true;
     }
-}
+  }
+});
 
-dateButton.addEventListener("click", checkDate);
 
-
-// =====================================
-// السؤال الثاني والثالث
-// =====================================
+// ======================================
+// 10. السؤال الثاني والثالث
+// ======================================
 
 function handleOptionClick(button) {
-    const questionNumber = Number(button.dataset.question);
-    const answer = button.dataset.answer;
+  const number = Number(button.dataset.question);
+  const answer = button.dataset.answer;
 
-    if (questionSolved[questionNumber]) return;
-    if (attempts[questionNumber] >= 2) return;
+  if (lockedQuestions[number]) return;
 
-    const questionElement = document.getElementById(`question${questionNumber}`);
-    const options = questionElement.querySelectorAll(".option");
-    const feedback = document.getElementById(`feedback${questionNumber}`);
-    const nextButton = document.getElementById(`next${questionNumber}`);
+  const questionElement =
+    document.getElementById(`question${number}`);
 
-    attempts[questionNumber]++;
+  const options =
+    questionElement.querySelectorAll(".option");
 
-    // إظهار علامة الصح بجانب الإجابة الصحيحة
+  const feedback =
+    document.getElementById(`feedback${number}`);
+
+  const nextButton =
+    document.getElementById(`next${number}`);
+
+  attempts[number]++;
+
+  if (answer === "correct") {
+    questionSolved[number] = true;
+    lockedQuestions[number] = true;
+
     options.forEach(option => {
-        if (option.dataset.answer === "correct") {
-            option.classList.add("correct");
-            option.querySelector(".option-mark").textContent = "✓";
-        }
+      option.disabled = true;
+
+      if (option.dataset.answer === "correct") {
+        option.classList.add("correct");
+        option.querySelector(".option-mark").textContent = "✓";
+      }
     });
 
-    if (answer === "correct") {
-        questionSolved[questionNumber] = true;
+    feedback.textContent = "برافو! إجابة صحيحة ♡";
+    feedback.className = "feedback success";
 
-        button.classList.add("correct");
-        button.querySelector(".option-mark").textContent = "✓";
+    nextButton.disabled = false;
 
-        feedback.textContent = "برافو! إجابة صحيحة ♡";
-        feedback.className = "feedback success";
+  } else {
+    button.classList.add("wrong");
+    button.querySelector(".option-mark").textContent = "✕";
 
+    const remaining = 2 - attempts[number];
+
+    if (remaining > 0) {
+      feedback.textContent = "مش دي الإجابة، جربي مرة كمان ♡";
+      feedback.className = "feedback error";
+
+      // نظهر علامة الإجابة الصحيحة مؤقتًا
+      options.forEach(option => {
+        if (option.dataset.answer === "correct") {
+          option.classList.add("correct");
+          option.querySelector(".option-mark").textContent = "✓";
+        }
+      });
+
+      setTimeout(() => {
+        if (lockedQuestions[number]) return;
+
+        // إعادة الاختيارات للمحاولة الثانية
         options.forEach(option => {
-            option.disabled = true;
+          option.classList.remove("wrong", "correct");
+          option.querySelector(".option-mark").textContent = "";
+          option.disabled = false;
         });
 
-        nextButton.disabled = false;
+        button.disabled = false;
+
+      }, 1000);
 
     } else {
-        button.classList.add("wrong");
-        button.querySelector(".option-mark").textContent = "✕";
+      lockedQuestions[number] = true;
 
-        const remaining = 2 - attempts[questionNumber];
+      feedback.textContent = "خلصت المحاولتين!";
+      feedback.className = "feedback error";
 
-        if (remaining > 0) {
-            feedback.textContent = "مش دي الإجابة، جربي تاني ♡";
-            feedback.className = "feedback error";
+      options.forEach(option => {
+        option.disabled = true;
 
-            // بعد لحظة نرجع الاختيارات للمحاولة الثانية
-            setTimeout(() => {
-                options.forEach(option => {
-                    if (option.dataset.answer === "wrong") {
-                        option.classList.remove("wrong");
-                        option.querySelector(".option-mark").textContent = "";
-                        option.disabled = false;
-                    }
-                });
-
-                // تظل علامة الصح ظاهرة بجانب الإجابة الصحيحة
-                options.forEach(option => {
-                    if (option.dataset.answer === "correct") {
-                        option.classList.remove("correct");
-                        option.querySelector(".option-mark").textContent = "";
-                    }
-                });
-            }, 1100);
-
-        } else {
-            feedback.textContent = "خلصت المحاولتين، للأسف مش هنقدر نكمل.";
-            feedback.className = "feedback error";
-
-            options.forEach(option => {
-                option.disabled = true;
-            });
+        if (option.dataset.answer === "correct") {
+          option.classList.add("correct");
+          option.querySelector(".option-mark").textContent = "✓";
         }
+      });
     }
+  }
 }
 
+
 document.querySelectorAll(".option").forEach(button => {
-    button.addEventListener("click", () => {
-        handleOptionClick(button);
-    });
+  button.addEventListener("click", () => {
+    handleOptionClick(button);
+  });
 });
 
 
-// =====================================
-// الانتقال بعد الإجابة الصحيحة
-// =====================================
+// ======================================
+// 11. الانتقال بين الأسئلة
+// ======================================
 
 document.getElementById("next2").addEventListener("click", () => {
-    if (!questionSolved[2]) return;
-    showQuestion(3);
+  if (!questionSolved[2]) return;
+
+  showQuestion(3);
 });
 
 document.getElementById("next3").addEventListener("click", () => {
-    if (!questionSolved[3]) return;
+  if (!questionSolved[3]) return;
 
-    // ظهور شاشة YOU FOUND YOUR WAY
-    showScreen("success");
+  showScreen("success");
 });
 
 
-// =====================================
-// زر ابدئي
-// =====================================
+// ======================================
+// 12. صفحة الترحيب
+// ======================================
 
 document.getElementById("startButton").addEventListener("click", () => {
-    showScreen("envelope");
+  showScreen("music");
 });
 
 
-// =====================================
-// فتح الظرف
-// =====================================
+// ======================================
+// 13. إعداد مشغل Spotify
+// ======================================
 
-const envelopeButton = document.getElementById("envelopeButton");
-const envelope = document.querySelector(".envelope");
-const tapHint = document.getElementById("tapHint");
+const musicPagePlayer =
+  document.getElementById("musicPagePlayer");
+
+const messagePlayerArea =
+  document.getElementById("miniPlayerFrame");
+
+if (
+  spotifyLink &&
+  !spotifyLink.includes("PUT_YOUR_TRACK_ID_HERE")
+) {
+  musicPagePlayer.src = spotifyLink;
+}
+
+
+// ======================================
+// 14. الانتقال من الأغنية للرسالة
+// ======================================
+
+document.getElementById("musicContinue").addEventListener("click", () => {
+
+  // ننقل نفس مشغل Spotify إلى الصفحة التالية
+  // حتى لا نبدأ مشغلًا جديدًا من الصفر
+  if (musicPagePlayer && messagePlayerArea) {
+    messagePlayerArea.appendChild(musicPagePlayer);
+
+    musicPagePlayer.style.width = "100%";
+    musicPagePlayer.style.display = "block";
+    musicPagePlayer.setAttribute("height", "80");
+  }
+
+  showScreen("envelope");
+});
+
+
+// ======================================
+// 15. فتح الظرف
+// ======================================
+
+const envelopeButton =
+  document.getElementById("envelopeButton");
+
+const envelope =
+  document.getElementById("envelope");
+
+const tapHint =
+  document.getElementById("tapHint");
 
 let envelopeOpened = false;
 
 envelopeButton.addEventListener("click", () => {
-    if (envelopeOpened) return;
+  if (envelopeOpened) return;
 
-    envelopeOpened = true;
-    envelope.classList.add("open");
-    tapHint.textContent = "الرسالة ليكي وحدك ♡";
+  envelopeOpened = true;
 
-    setTimeout(() => {
-        showScreen("message");
-        startMessage();
-    }, 1600);
+  envelope.classList.add("open");
+
+  tapHint.textContent = "الرسالة ليكي وحدك ♡";
+
+  setTimeout(() => {
+    showScreen("message");
+    startMessage();
+  }, 1500);
 });
 
 
-// =====================================
-// ظهور الرسالة
-// =====================================
+// ======================================
+// 16. كتابة الرسالة
+// ======================================
 
 function startMessage() {
-    const messageBody = document.getElementById("messageBody");
+  const messageBody =
+    document.getElementById("messageBody");
 
-    messageBody.textContent = letterMessage.trim();
+  messageBody.textContent = letterMessage.trim();
 
-    const spotifyFrame = document.getElementById("spotifyFrame");
-
-    if (spotifyLink && !spotifyLink.includes("PUT_YOUR_TRACK_ID_HERE")) {
-        spotifyFrame.src = spotifyLink;
-    }
+  // إظهار مشغل الأغنية الصغير
+  document.getElementById("miniMusic").classList.remove("hidden");
 }
 
 
-// =====================================
-// زر قرأت
-// =====================================
+// ======================================
+// 17. إخفاء وإظهار مشغل الأغنية
+// ======================================
 
-document.getElementById("readButton").addEventListener("click", () => {
-    showScreen("ending");
-    createPetals(22);
+const miniMusic =
+  document.getElementById("miniMusic");
+
+const closeMiniMusic =
+  document.getElementById("closeMiniMusic");
+
+const showMiniMusic =
+  document.getElementById("showMiniMusic");
+
+closeMiniMusic.addEventListener("click", () => {
+  miniMusic.classList.add("hidden");
+  showMiniMusic.classList.add("visible");
+});
+
+showMiniMusic.addEventListener("click", () => {
+  miniMusic.classList.remove("hidden");
+  showMiniMusic.classList.remove("visible");
 });
 
 
-// =====================================
-// بتلات متحركة
-// =====================================
+// ======================================
+// 18. نهاية الرسالة
+// ======================================
+
+document.getElementById("readButton").addEventListener("click", () => {
+  showScreen("ending");
+  createPetals(24);
+});
+
+
+// ======================================
+// 19. البتلات
+// ======================================
 
 function createPetals(count) {
-    const petalsContainer = document.getElementById("petals");
-    const symbols = ["✿", "❀", "♡", "✧"];
+  const container = document.getElementById("petals");
+  const symbols = ["✿", "❀", "♡", "✧"];
 
-    for (let i = 0; i < count; i++) {
-        const petal = document.createElement("span");
+  for (let i = 0; i < count; i++) {
+    const petal = document.createElement("span");
 
-        petal.className = "petal";
-        petal.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    petal.className = "petal";
+    petal.textContent =
+      symbols[Math.floor(Math.random() * symbols.length)];
 
-        petal.style.left = `${Math.random() * 100}%`;
-        petal.style.fontSize = `${12 + Math.random() * 14}px`;
-        petal.style.animationDuration = `${6 + Math.random() * 8}s`;
-        petal.style.animationDelay = `${Math.random() * 3}s`;
+    petal.style.left = `${Math.random() * 100}%`;
+    petal.style.fontSize = `${12 + Math.random() * 14}px`;
+    petal.style.animationDuration = `${6 + Math.random() * 8}s`;
+    petal.style.animationDelay = `${Math.random() * 3}s`;
 
-        petalsContainer.appendChild(petal);
+    container.appendChild(petal);
 
-        setTimeout(() => {
-            petal.remove();
-        }, 16000);
-    }
+    setTimeout(() => {
+      petal.remove();
+    }, 16000);
+  }
 }
+
 
 // بتلات خفيفة في الخلفية
 setInterval(() => {
-    const petalsContainer = document.getElementById("petals");
-    const petal = document.createElement("span");
-    const symbols = ["✿", "❀"];
+  const container = document.getElementById("petals");
+  const petal = document.createElement("span");
 
-    petal.className = "petal";
-    petal.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-    petal.style.left = `${Math.random() * 100}%`;
-    petal.style.fontSize = `${10 + Math.random() * 9}px`;
-    petal.style.animationDuration = `${9 + Math.random() * 6}s`;
+  const symbols = ["✿", "❀"];
 
-    petalsContainer.appendChild(petal);
+  petal.className = "petal";
+  petal.textContent =
+    symbols[Math.floor(Math.random() * symbols.length)];
 
-    setTimeout(() => petal.remove(), 16000);
-}, 1700);
+  petal.style.left = `${Math.random() * 100}%`;
+  petal.style.fontSize = `${10 + Math.random() * 9}px`;
+  petal.style.animationDuration = `${9 + Math.random() * 6}s`;
+
+  container.appendChild(petal);
+
+  setTimeout(() => {
+    petal.remove();
+  }, 16000);
+
+}, 2200);
