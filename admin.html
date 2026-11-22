@@ -1,1 +1,265 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2c1725">
+
+  <title>Jojo Replies - Admin</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      padding: 25px;
+      background:
+        radial-gradient(ellipse at 10% 10%, #f4dce2, transparent 45%),
+        linear-gradient(145deg, #fffaf6, #f5e8eb);
+      color: #49333d;
+      font-family: "Cairo", sans-serif;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .container {
+      width: min(100%, 720px);
+      margin: 45px auto;
+    }
+
+    .card {
+      padding: 30px;
+      border: 1px solid white;
+      border-radius: 22px;
+      background: rgba(255,255,255,.87);
+      box-shadow: 0 20px 60px rgba(105,61,78,.1);
+    }
+
+    h1 {
+      color: #713b50;
+      margin-bottom: 8px;
+      font-size: 25px;
+    }
+
+    .description {
+      color: #9a7c86;
+      font-size: 13px;
+      margin-bottom: 25px;
+      line-height: 1.9;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      margin-bottom: 13px;
+      border: 1px solid #ead6dc;
+      border-radius: 11px;
+      outline: none;
+      background: #fffdfc;
+      direction: ltr;
+      text-align: left;
+    }
+
+    input:focus {
+      border-color: #b77c8a;
+      box-shadow: 0 0 0 3px rgba(183,124,138,.1);
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      border: 0;
+      border-radius: 11px;
+      background: linear-gradient(115deg, #865366, #b77c8a, #c6a16b);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .25s;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(105,61,78,.15);
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    .message {
+      margin: 15px 0;
+      font-size: 13px;
+      color: #9a7c86;
+      line-height: 1.8;
+    }
+
+    .reply {
+      margin-top: 15px;
+      padding: 20px;
+      border: 1px solid #efdee2;
+      border-radius: 15px;
+      background: #fffaf8;
+      animation: appear .4s ease both;
+    }
+
+    .reply p {
+      white-space: pre-wrap;
+      line-height: 2;
+      overflow-wrap: anywhere;
+      color: #49333d;
+    }
+
+    .reply time {
+      display: block;
+      color: #a58d95;
+      font-size: 11px;
+      margin-top: 12px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .top-row button {
+      width: auto;
+      padding: 8px 15px;
+    }
+
+    .reply-count {
+      color: #713b50;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 14px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .top-row {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .top-row button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="container">
+
+    <!-- تسجيل الدخول -->
+
+    <section class="card" id="loginCard">
+
+      <h1>لوحة الردود ♡</h1>
+
+      <p class="description">
+        تسجيل الدخول لعرض الردود الخاصة بالموقع.
+      </p>
+
+      <form id="loginForm">
+
+        <input
+          type="email"
+          id="email"
+          placeholder="Email"
+          autocomplete="username"
+          required
+        >
+
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          autocomplete="current-password"
+          required
+        >
+
+        <button id="loginButton" type="submit">
+          تسجيل الدخول
+        </button>
+
+      </form>
+
+      <p class="message" id="loginMessage" aria-live="polite"></p>
+
+    </section>
+
+
+    <!-- لوحة الردود -->
+
+    <section class="card hidden" id="dashboard">
+
+      <div class="top-row">
+
+        <div>
+          <h1>ردود جني ♡</h1>
+          <p class="description">
+            الرسائل اللي وصلت من الموقع.
+          </p>
+        </div>
+
+        <button id="logoutButton">
+          تسجيل الخروج
+        </button>
+
+      </div>
+
+      <p class="reply-count" id="replyCount"></p>
+
+      <p class="message" id="repliesMessage" aria-live="polite"></p>
+
+      <div id="repliesList"></div>
+
+    </section>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="admin.js"></script>
+
+</body>
+</html>
+
