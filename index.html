@@ -1,39 +1,43 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A Little Surprise for Jojo</title>
+  <meta name="theme-color" content="#2c1725">
+  <title>A Birthday Letter ♡</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <div class="background-glow glow-one"></div>
-  <div class="background-glow glow-two"></div>
-  <div class="noise"></div>
-  <div id="petals"></div>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <div id="petals" aria-hidden="true"></div>
 
   <main class="app">
 
-    <!-- 1. الأسئلة -->
+    <!-- =========================
+         1. الأسئلة
+    ========================== -->
+
     <section class="screen active" id="quizScreen">
+      <div class="content-card quiz-card">
 
-      <div class="top-label reveal-item">A LITTLE SURPRISE</div>
+        <div class="eyebrow reveal-item">A LITTLE SECRET</div>
+        <div class="decorative-heart reveal-item">♡</div>
 
-      <div class="quiz-card reveal-item">
+        <h1 class="main-title reveal-item">
+          قبل ما نبدأ...
+        </h1>
 
-        <div class="tiny-flower">✿</div>
-
-        <p class="eyebrow reveal-item">BEFORE WE BEGIN</p>
-        <h1 class="main-title reveal-item">خلينا نتأكد إنك إنتِ</h1>
         <p class="subtitle reveal-item">
-          جاوبي على الأسئلة الصغيرة دي عشان نبدأ الحكاية
+          محتاج أتأكد إن الشخص الصح هو اللي وصل هنا.
         </p>
 
         <div class="progress-area reveal-item">
@@ -43,204 +47,179 @@
           </div>
 
           <div class="progress-track">
-            <div class="progress-fill" id="progressFill"></div>
+            <div id="progressFill" class="progress-fill"></div>
           </div>
         </div>
 
         <!-- السؤال الأول -->
-        <div class="question-step active" id="question1">
 
+        <div class="question-step active" id="question1">
           <span class="question-number">01</span>
-          <h2>عيد ميلادك يوم كام؟</h2>
-          <p class="question-hint">اختاري اليوم والشهر</p>
+          <h2>فاكرة اليوم المميز؟</h2>
+          <p>إيه تاريخ ميلادك؟</p>
 
           <div class="date-inputs">
-            <div class="date-field">
-              <label for="birthDay">اليوم</label>
+            <label>
+              <span>اليوم</span>
               <input
                 id="birthDay"
                 type="text"
                 inputmode="numeric"
                 maxlength="2"
                 placeholder="DD"
-                autocomplete="off">
-            </div>
+                autocomplete="off"
+              >
+            </label>
 
-            <span class="date-divider">/</span>
+            <span class="date-separator">/</span>
 
-            <div class="date-field">
-              <label for="birthMonth">الشهر</label>
+            <label>
+              <span>الشهر</span>
               <input
                 id="birthMonth"
                 type="text"
                 inputmode="numeric"
                 maxlength="2"
                 placeholder="MM"
-                autocomplete="off">
-            </div>
+                autocomplete="off"
+              >
+            </label>
           </div>
 
           <p class="feedback" id="dateFeedback" aria-live="polite"></p>
 
-          <button class="primary-btn" id="dateButton">
-            تأكيد الإجابة <span>↗</span>
+          <button class="primary-button" id="dateButton">
+            تأكيد الإجابة
+            <span>♡</span>
           </button>
         </div>
 
         <!-- السؤال الثاني -->
-        <div class="question-step" id="question2">
 
+        <div class="question-step" id="question2">
           <span class="question-number">02</span>
-          <h2>إيه أكتر حيوان بتحبيه؟</h2>
-          <p class="question-hint">اختاري إجابة واحدة</p>
+          <h2>سؤال صغير كمان...</h2>
+          <p>إيه أكتر حيوان بحبه؟</p>
 
           <div class="options">
-
             <button class="option" data-question="2" data-answer="wrong">
-              <span class="option-emoji">🐶</span>
-              <span>كلاب</span>
+              <span>الكلاب</span>
               <span class="option-mark"></span>
             </button>
 
             <button class="option" data-question="2" data-answer="correct">
-              <span class="option-emoji">🦌</span>
-              <span>غزلان</span>
+              <span>الغزلان</span>
               <span class="option-mark"></span>
             </button>
 
             <button class="option" data-question="2" data-answer="wrong">
-              <span class="option-emoji">🐇</span>
-              <span>أرانب</span>
+              <span>الأرانب</span>
               <span class="option-mark"></span>
             </button>
-
           </div>
 
           <p class="feedback" id="feedback2" aria-live="polite"></p>
 
-          <button class="primary-btn next-btn" id="next2" disabled>
-            التالي <span>↗</span>
+          <button class="primary-button" id="next2" disabled>
+            كمّلي
+            <span>♡</span>
           </button>
         </div>
 
         <!-- السؤال الثالث -->
-        <div class="question-step" id="question3">
 
+        <div class="question-step" id="question3">
           <span class="question-number">03</span>
-          <h2>بتحبي أنهي فصل أكتر؟</h2>
-          <p class="question-hint">اختاري إجابة واحدة</p>
+          <h2>آخر سؤال...</h2>
+          <p>إيه الفصل اللي بحبه أكتر؟</p>
 
           <div class="options">
-
             <button class="option" data-question="3" data-answer="correct">
-              <span class="option-emoji">❄️</span>
               <span>الشتاء</span>
               <span class="option-mark"></span>
             </button>
 
             <button class="option" data-question="3" data-answer="wrong">
-              <span class="option-emoji">☀️</span>
               <span>الصيف</span>
               <span class="option-mark"></span>
             </button>
-
           </div>
 
           <p class="feedback" id="feedback3" aria-live="polite"></p>
 
-          <button class="primary-btn next-btn" id="next3" disabled>
-            إنهاء <span>✦</span>
+          <button class="primary-button" id="next3" disabled>
+            افتحي المفاجأة
+            <span>♡</span>
           </button>
         </div>
 
-        <div class="attempts" id="attemptsText">
-          قدامك محاولتين لكل سؤال
+        <div class="card-footer reveal-item">
+          MADE WITH A LITTLE LOVE
         </div>
 
       </div>
-
-      <div class="footer-note reveal-item">MADE WITH A LITTLE LOVE ✦</div>
     </section>
 
 
-    <!-- 2. صفحة الترحيب -->
-    <section class="screen success-screen" id="successScreen">
+    <!-- =========================
+         2. الترحيب
+    ========================== -->
 
-      <div class="success-glow"></div>
+    <section class="screen" id="successScreen">
+      <div class="content-card welcome-card">
 
-      <div class="success-content">
+        <div class="eyebrow reveal-item">YOU FOUND YOUR WAY</div>
 
-        <div class="success-stars reveal-item">✦　✧　✦</div>
+        <div class="big-heart reveal-item">♡</div>
 
-        <p class="success-kicker reveal-item">
-          A LITTLE SOMETHING FOR YOU
-        </p>
-
-        <h1 class="found-title reveal-item">
-          YOU FOUND<br>YOUR WAY
+        <h1 class="main-title reveal-item">
+          أهلًا بيكي يا Jojo
         </h1>
 
-        <div class="success-line reveal-item"></div>
-
-        <h2 class="welcome-title reveal-item">
-          أهلًا بيكي يا Jojo
-        </h2>
-
-        <p class="welcome-copy reveal-item">
-          طالما جاوبتي كل الأسئلة صح،<br>
-          يبقى إنتِ الشخص اللي الموقع ده اتعمل عشانه.
+        <p class="welcome-text reveal-item">
+          طالما جاوبتي كل الأسئلة صح، يبقى إنتِ الشخص اللي الموقع ده اتعمل عشانه.
         </p>
 
-        <div class="ornament reveal-item">✦</div>
-
-        <p class="little-story reveal-item">
+        <p class="subtitle reveal-item">
           وفيه حكاية صغيرة لسه مستنياكي…
         </p>
 
-        <div class="flowers reveal-item">❀ ✿ ❀</div>
-
-        <button class="start-btn reveal-item" id="startButton">
-          ابدئي <span>♡</span>
+        <button class="primary-button reveal-item" id="startButton">
+          ابدئي
+          <span>♡</span>
         </button>
 
       </div>
     </section>
 
 
-    <!-- 3. صفحة الأغنية -->
-    <section class="screen music-screen" id="musicScreen">
+    <!-- =========================
+         3. الأغنية
+    ========================== -->
 
-      <div class="music-content">
+    <section class="screen" id="musicScreen">
+      <div class="content-card music-card">
 
-        <div class="music-symbol reveal-item">♫</div>
+        <div class="eyebrow reveal-item">A SONG FOR YOU</div>
 
-        <p class="music-overline reveal-item">
-          BEFORE THE LETTER
-        </p>
+        <div class="music-art reveal-item">
+          <span>♫</span>
+          <span class="music-art-heart">♡</span>
+        </div>
 
-        <h1 class="music-title reveal-item">
-          لحظة صغيرة...
+        <h1 class="main-title reveal-item">
+          قبل ما تكمّلي...
         </h1>
 
-        <p class="music-description reveal-item">
-          قبل ما تفتحي الرسالة،<br>
-          عايزك تسمعي حاجة الأول.
+        <p class="subtitle reveal-item">
+          شغّلي الأغنية الأول، وخدي وقتك.
         </p>
 
-        <div class="music-divider reveal-item"></div>
-
-        <h2 class="play-heading reveal-item">
-          شغّلي الأغنية
-        </h2>
-
-        <p class="play-subtitle reveal-item">
-          وخليها تكون خلفية للحكاية ♡
-        </p>
-
-        <div class="spotify-main reveal-item">
+        <div class="spotify-wrapper reveal-item">
           <iframe
             id="musicPagePlayer"
-            src="https://open.spotify.com/embed/track/PUT_YOUR_TRACK_ID_HERE?utm_source=generator"
+            title="Spotify music player"
+            src="https://open.spotify.com/embed/track/4CoY8ObNGh8Ses7kzGiTfm"
             width="100%"
             height="152"
             frameborder="0"
@@ -249,154 +228,192 @@
           </iframe>
         </div>
 
-        <button class="music-continue reveal-item" id="musicContinue">
-          شغّلت الأغنية، كمّلي <span>♡</span>
+        <button class="primary-button reveal-item" id="musicContinue">
+          شغّلت الأغنية، كمّلي
+          <span>♡</span>
         </button>
 
-        <p class="music-footnote reveal-item">
-          تقدري تكملي بعد ما تضغطي Play في Spotify
+        <p class="small-note reveal-item">
+          الأغنية جزء من المفاجأة.
         </p>
 
       </div>
     </section>
 
 
-    <!-- 4. الظرف -->
-    <section class="screen letter-screen" id="envelopeScreen">
+    <!-- =========================
+         4. الظرف
+    ========================== -->
 
-      <div class="letter-heading">
+    <section class="screen" id="envelopeScreen">
+      <div class="content-card envelope-card">
 
-        <p class="letter-overline reveal-item">A SPECIAL DAY</p>
+        <div class="eyebrow reveal-item">A LETTER FOR YOU</div>
 
-        <h2 class="reveal-item">
-          Happy Birthday, My Ganjonty
-        </h2>
+        <h1 class="main-title reveal-item">
+          Happy Birthday
+        </h1>
 
-        <p class="reveal-item">
+        <p class="envelope-subtitle reveal-item">
+          My Ganjonty
+        </p>
+
+        <p class="subtitle reveal-item">
           Open the letter, I want to tell you something...
         </p>
 
-      </div>
-
-      <button
-        class="envelope-button reveal-item"
-        id="envelopeButton"
-        aria-label="افتحي الرسالة">
-
-        <div class="envelope" id="envelope">
-
-          <div class="envelope-back"></div>
-
-          <div class="letter-paper">
-            <span class="paper-flower">✿</span>
-            <span class="paper-text">For you ♡</span>
+        <button
+          class="envelope-button reveal-item"
+          id="envelopeButton"
+          aria-label="افتحي الظرف"
+        >
+          <div class="envelope" id="envelope">
+            <div class="envelope-back"></div>
+            <div class="envelope-paper">
+              <span>For you ♡</span>
+            </div>
+            <div class="envelope-front"></div>
+            <div class="envelope-flap"></div>
+            <div class="envelope-seal">♡</div>
           </div>
+        </button>
 
-          <div class="envelope-front"></div>
-          <div class="envelope-flap"></div>
-          <div class="wax-seal">♡</div>
+        <p class="tap-hint reveal-item" id="tapHint">
+          اضغطي على الظرف عشان تفتحيه
+        </p>
 
-        </div>
-      </button>
-
-      <p class="tap-hint reveal-item" id="tapHint">
-        اضغطي على الظرف لفتح الرسالة
-      </p>
-
+      </div>
     </section>
 
 
-    <!-- 5. الرسالة -->
-    <section class="screen message-screen" id="messageScreen">
+    <!-- =========================
+         5. الرسالة
+    ========================== -->
 
-      <div class="message-card">
+    <section class="screen" id="messageScreen">
+      <div class="letter-container">
 
-        <div class="message-top-decoration reveal-item">✿</div>
+        <div class="letter-top">
+          <span class="eyebrow">A LETTER FROM THE HEART</span>
+          <span class="letter-heart">♡</span>
+        </div>
 
-        <p class="message-label reveal-item">
-          A LETTER FOR YOU
-        </p>
+        <h1 class="letter-heading">
+          To My Ganjonty
+        </h1>
 
-        <h2 class="message-title reveal-item">
-          To my Ganjonty ♡
-        </h2>
+        <div class="letter-decoration">✦ ✧ ✦</div>
 
-        <div class="message-divider reveal-item"></div>
+        <div class="message-body" id="messageBody"></div>
 
-        <div class="message-body reveal-item" id="messageBody"></div>
+        <!-- رد جني -->
 
-        <div class="message-bottom-flower reveal-item">❀</div>
+        <div class="reply-section">
+          <div class="reply-divider"></div>
 
-        <button class="read-button reveal-item" id="readButton">
+          <h3>عايز أسمع منك ♡</h3>
+
+          <p>
+            لو حابة تكتبي أي حاجة بعد ما تقرئي الرسالة،
+            تقدري تبعتي ردك من هنا.
+          </p>
+
+          <textarea
+            id="jojoReply"
+            maxlength="2000"
+            rows="5"
+            placeholder="اكتبي ردك هنا..."
+          ></textarea>
+
+          <button class="reply-submit" id="sendReply">
+            إرسال الرد ♡
+          </button>
+
+          <p
+            id="replyFeedback"
+            class="reply-feedback"
+            aria-live="polite"
+          ></p>
+        </div>
+
+        <div class="letter-bottom">
+          <span>WITH LOVE</span>
+          <span>♡</span>
+        </div>
+
+        <button class="primary-button read-button" id="readButton">
           قرأت ♡
         </button>
 
       </div>
-
-      <!-- مشغل الأغنية الصغير -->
-      <div class="mini-music" id="miniMusic">
-
-        <div class="mini-music-header">
-          <div class="mini-music-icon">♫</div>
-
-          <div class="mini-music-info">
-            <span>OUR LITTLE SONG</span>
-            <small>Playing your song ♡</small>
-          </div>
-
-          <button class="mini-close" id="closeMiniMusic" aria-label="إخفاء المشغل">
-            ×
-          </button>
-        </div>
-
-        <div class="mini-player-frame">
-          <iframe
-            id="messagePlayer"
-            src="https://open.spotify.com/embed/track/PUT_YOUR_TRACK_ID_HERE?utm_source=generator"
-            width="100%"
-            height="80"
-            frameborder="0"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy">
-          </iframe>
-        </div>
-
-      </div>
-
-      <button class="show-music-button" id="showMiniMusic">
-        ♫ الأغنية
-      </button>
-
     </section>
 
 
-    <!-- 6. النهاية -->
-    <section class="screen ending-screen" id="endingScreen">
+    <!-- =========================
+         6. النهاية
+    ========================== -->
 
-      <div class="ending-content">
+    <section class="screen" id="endingScreen">
+      <div class="content-card ending-card">
 
-        <div class="ending-flower reveal-item">❀</div>
+        <div class="eyebrow reveal-item">THE END... OR A NEW BEGINNING</div>
 
-        <p class="ending-small reveal-item">
-          AND THAT'S ALL FOR NOW
+        <div class="ending-heart reveal-item">♡</div>
+
+        <h1 class="main-title reveal-item">
+          بحبك أوي يا جني
+        </h1>
+
+        <p class="ending-text reveal-item">
+          وكل سنة وإنتِ طيبة
         </p>
 
-        <h1 class="reveal-item">بحبك أوي يا جني</h1>
-
-        <h2 class="reveal-item">وكل سنة وإنتِ طيبة</h2>
-
-        <div class="ending-stars reveal-item">
-          ✦　♡　✦
+        <div class="ending-decoration reveal-item">
+          ✧ ✿ ♡ ✿ ✧
         </div>
 
-        <p class="goodbye reveal-item">سلااام ♡</p>
+        <p class="subtitle reveal-item">
+          سلااام ♡
+        </p>
 
       </div>
-
     </section>
 
   </main>
 
+
+  <!-- =========================
+       مشغل الأغنية الصغير
+  ========================== -->
+
+  <div class="mini-music hidden" id="miniMusic">
+
+    <div class="mini-music-header">
+      <div class="mini-music-title">
+        <span class="mini-music-icon">♫</span>
+        <span>Our song</span>
+      </div>
+
+      <button
+        class="mini-close"
+        id="closeMiniMusic"
+        aria-label="إخفاء المشغل"
+      >×</button>
+    </div>
+
+    <div class="mini-player-frame" id="miniPlayerFrame"></div>
+
+  </div>
+
+  <button class="show-mini-music" id="showMiniMusic">
+    ♫ الأغنية
+  </button>
+
+
+  <!-- المكتبات والسكريبت -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="script.js"></script>
+
 </body>
 </html>
